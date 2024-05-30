@@ -25,26 +25,21 @@ class Processor:
     def save(self, reg):
         self.registers[reg] = self.accumulator
 
-    def xor_bytes(self, byte1, byte2):
-        """Perform XOR on each byte of the operands."""
-        result = 0
-        for i in range(0, self.bit_size, 8):
-            b1 = (byte1 >> i) & 0xFF
-            b2 = (byte2 >> i) & 0xFF
-            result |= (b1 ^ b2) << i
-        return result
+    def bitwise_add(self, byte1, byte2):
+        """Perform bitwise addition modulo 2."""
+        return byte1 ^ byte2
 
     def add(self, operand):
-        """Add the operand to the accumulator using XOR by bytes."""
+        """Add the operand to the accumulator using bitwise addition."""
         operand_value = self.registers[operand] if operand in self.registers else int(operand)
-        result = self.xor_bytes(self.accumulator, operand_value)
+        result = self.bitwise_add(self.accumulator, operand_value)
         self.accumulator = result
         self.status['sign'] = 1 if result < 0 else 0
 
     def sub(self, operand):
-        """Subtract the operand from the accumulator using XOR by bytes."""
+        """Subtract the operand from the accumulator using bitwise addition."""
         operand_value = self.registers[operand] if operand in self.registers else int(operand)
-        result = self.xor_bytes(self.accumulator, ~operand_value)
+        result = self.bitwise_add(self.accumulator, operand_value)
         self.accumulator = result
         self.status['sign'] = 1 if result < 0 else 0
 
