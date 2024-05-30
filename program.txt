@@ -1,0 +1,3 @@
+mov 52
+save R1
+add R1
