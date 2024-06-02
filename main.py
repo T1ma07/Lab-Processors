@@ -15,7 +15,7 @@ class Processor:
 
     def from_binary(self, binary_str):
         """Convert binary string to integer."""
-        if binary_str[0] == '1':  # negative number
+        if binary_str[0] == '1':
             return int(binary_str, 2) - (1 << len(binary_str))
         return int(binary_str, 2)
 
@@ -78,7 +78,6 @@ def read_program_from_file(filename):
     with open(filename, 'r') as file:
         return [line.strip() for line in file.readlines()]
 
-# Example usage
 program = read_program_from_file('program.txt')
 cpu = Processor()
 cpu.run(program)
